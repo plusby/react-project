@@ -42,24 +42,43 @@ module.exports = {
             },
             {
                 test: /(\.s[ac]ss)|(\.less)|(\.css)$/i, // 处理css
-                exclude: /[\\/]node_modules[\\/]/,
+                // exclude: /[\\/]node_modules[\\/]/,
+                include: [/antd/,/src/],
                 use: [
-                  {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                      esModule: true, // 支持ES模块语法
-                      hmr: devMode, // CSS文件的模块热重载
-                    },
-                  },
+                //   {  // less-loader降到3以下的版本就无法使用MiniCssExtractPlugin
+                //     loader: MiniCssExtractPlugin.loader,
+                //     options: {
+                //       esModule: true, // 支持ES模块语法
+                //       hmr: devMode, // CSS文件的模块热重载
+                //     },
+                //   },
+                  'style-loader',
                   'css-loader',
                   'postcss-loader',
-                  'sass-loader',
+                //   'sass-loader',
+                  { 
+                    loader: 'less-loader',
+                    options: {
+                        lessOptions: { // 如果使用less-loader@5，请移除 lessOptions 这一级直接配置选项。
+                            modifyVars: {
+                                // 'primary-color': '#1DA57A',
+                                // 'link-color': '#1DA57A',
+                                // 'border-radius-base': '2px',
+                            },
+                        },
+                    },
+                  },
                 ],
             },
             {
                 test: /(\.js(x?))|(\.ts(x?))$/, // 解析js使用babel-loader，并且缓存
                 exclude: /[\\/]node_modules[\\/]/,
-                loader: 'babel-loader?cacheDirectory=true'
+                loader: 'babel-loader?cacheDirectory=true',
+                query: {
+                    plugins: [
+                        ["import", {libraryName: "antd", style: true}] //按需加载
+                    ]
+                },
             },
             {
                 test: /\.html$/,

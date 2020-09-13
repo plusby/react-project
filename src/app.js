@@ -1,6 +1,10 @@
 import React, { Suspense } from 'react'
 // import Home from '@/pages/Home/home.js'
 import routes from '@/router/index';
+const Home = React.lazy(() => import('@/pages/modules/sum/sum-home.js'));
+const ClientHome = React.lazy(() => import('@/pages/modules/react-login-client/pages/login/login.js'));
+import './reset.css'
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -15,24 +19,15 @@ import {
 function App(props){
 
     return  <Router>
-                <nav>
-                    {/* {
-                        routes.map((route, index) => {
-                            const { show, title } = route.meta
-                            // return  route.path !== '/' && show  ? <p key={index} onClick={()=>{goPage(route.path)}} >{title}</p> : ''
-                            return  route.path !== '/' && show  ? <Link key={index} to={route.path} >{title}</Link> : ''
-                        })
-                    } */}
-                    <Link  to='/sum' >{'title'}</Link>
-                </nav>
-                {/* <Switch> */}
-                {
-                    routes.map((route, index) => {
-                        return  <RouteWithSubRoutes key={index} {...route} />
-                    })
-                }
-                <Redirect to="/" />
-                {/* </Switch> */}
+              <>
+                <Switch>
+                  <Suspense fallback={<div>Loading</div>}>
+                    <Route path='/home' component={Home}/>
+                    <Route path='/ClientHome' component={ClientHome}/>
+                    <Redirect to="/home" />
+                  </Suspense>
+                </Switch>
+              </>
             </Router>
 }
 
