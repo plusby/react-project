@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { message } from 'antd'
 
-let base = process.env.NODE_ENV !== 'production' ? 'www.baidu.com' : 'www.baidu.com'
+let base = process.env.NODE_ENV !== 'production' ? '' : ''
 
 /*
     params:
@@ -20,7 +20,7 @@ export function https (url, data = {},type = 'get',isErr){
                 params: data
             })
         } else if (type === 'post') {
-            promiseResult = axios.get(url,data)
+            promiseResult = axios.post(url,data)
         }
         promiseResult.then(res=>{
             resolve(res)

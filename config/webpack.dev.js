@@ -9,11 +9,11 @@ module.exports = merge(baseConfig,{
         open: true, // 开启自动打开浏览器
         hot: true, // 开启热更新
         historyApiFallback: true,
-        proxy: {
-            '/api': {
-              target: 'http://www.a-fake-url.com',
-              changeOrigin: true,
-            },
-        },
+        // proxy: {
+        //     '/api': {
+        //       target: '',
+        //       changeOrigin: true,
+        //     },
+        // },
     }
 })

@@ -3,7 +3,9 @@ import React, { Suspense } from 'react'
 import routes from '@/router/index';
 const Home = React.lazy(() => import('@/pages/modules/sum/sum-home.js'));
 const ClientHome = React.lazy(() => import('@/pages/modules/react-login-client/pages/login/login.js'));
+const Admin = React.lazy(() => import('@/pages/modules/react-login-client/pages/admin/admin.js')); 
 import './reset.css'
+
 
 import {
     BrowserRouter as Router,
@@ -24,6 +26,7 @@ function App(props){
                   <Suspense fallback={<div>Loading</div>}>
                     <Route path='/home' component={Home}/>
                     <Route path='/ClientHome' component={ClientHome}/>
+                    <Route path='/admin' component={Admin}/>
                     <Redirect to="/home" />
                   </Suspense>
                 </Switch>
