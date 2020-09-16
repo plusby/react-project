@@ -4,8 +4,8 @@ import './index.less'
 export default function Head(){
     
     return (
-        <div className="head-background">
-            123
+        <div>
+           commodity
         </div>
     )
 }

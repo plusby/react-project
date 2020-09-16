@@ -16,17 +16,30 @@ import {
     Redirect,
   } from "react-router-dom";
 
-
+console.log('routes', routes)
 
 function App(props){
 
     return  <Router>
               <>
                 <Switch>
-                  <Suspense fallback={<div>Loading</div>}>
-                    <Route path='/home' component={Home}/>
-                    <Route path='/ClientHome' component={ClientHome}/>
-                    <Route path='/admin' component={Admin}/>
+                  <Suspense fallback=''>
+                    <Route path='/home' exact component={Home}/>
+                    {/* <Route path='/ClientHome' component={ClientHome}/>
+                    <Route path='/admin' component={Admin}/> */}
+                    {
+                      routes.map(item=>{
+                        return <Route
+                          key={item.path}
+                          path={item.path}
+                          render={props => {
+                              return (
+                                <item.component exact {...props}></item.component>
+                              );
+                          }}
+                        />
+                      })
+                    }
                     <Redirect to="/home" />
                   </Suspense>
                 </Switch>
@@ -37,16 +50,15 @@ function App(props){
 function RouteWithSubRoutes(...item) {
     console.log(item)
     if (!item.component ){
-        return <></>
+        return null
     }
     return (
         <Route
+            key={item.path}
             path={item.path}
             render={props => {
                 return (
-                //   <Suspense fallback={<div>Loading</div>}><item.component {...props}></item.component></Suspense>
-                 <div>88888</div>
-                //  <item.component {...props}></item.component>
+                  <item.component {...props}></item.component>
                 );
             }}
         />
