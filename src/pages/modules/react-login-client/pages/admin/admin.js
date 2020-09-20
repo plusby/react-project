@@ -42,7 +42,7 @@ function Admin(){
                         <Breadcrumb.Item>User</Breadcrumb.Item>
                         <Breadcrumb.Item>Bill</Breadcrumb.Item>
                         </Breadcrumb>
-                        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+                        <div className="site-layout-background" style={{ padding: 24, minHeight: 360, background: '#fff' }}>
                             <Switch>
                                 {
                                     ReactLogin[1].children.map(item=>{

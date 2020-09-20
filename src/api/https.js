@@ -2,7 +2,7 @@ import axios from 'axios'
 import { message } from 'antd'
 
 let base = process.env.NODE_ENV !== 'production' ? '' : ''
-
+let baseWeather = process.env.NODE_ENV !== 'production' ? 'https://api.gugudata.com/' : 'https://api.gugudata.com/'
 /*
     params:
         url: 请求接口路径
@@ -12,7 +12,12 @@ let base = process.env.NODE_ENV !== 'production' ? '' : ''
 */
 
 export function https (url, data = {},type = 'get',isErr){
-    url = base + url
+    if(url.startsWith('weather/')){
+        url = baseWeather + url
+    }else{
+        url = base + url
+    }
+    
     return new Promise((resolve,rej)=>{
         let promiseResult = null
         if (type === 'get') {
@@ -20,7 +25,12 @@ export function https (url, data = {},type = 'get',isErr){
                 params: data
             })
         } else if (type === 'post') {
-            promiseResult = axios.post(url,data)
+            console.log('data',data)
+            promiseResult = axios({
+                method: "post",
+                url,
+                data
+              })
         }
         promiseResult.then(res=>{
             resolve(res)

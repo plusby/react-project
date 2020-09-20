@@ -56,7 +56,7 @@ function Login(props) {
     return (
         <>
             {
-                userInfo && <Redirect to='/admin'/>
+                userInfo && userInfo.id && <Redirect to='/admin'/>
             }
             <div className="login-wrap">
                 <header>

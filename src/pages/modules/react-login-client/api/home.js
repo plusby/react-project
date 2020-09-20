@@ -10,3 +10,18 @@ export function login(data){
 export function navLeft(data){
     return https('/api/navLeft',data,'get')
 }
+
+// 获取天气数据
+export function getWeather({city}){
+    return https(`weather/weatherinfo?appkey=PU8269ABUZ2K&keyword=${city}&days=1`,{},'get')
+}
+
+// 获取品类数据
+export function getCategory({page,category}){
+    return https(`/api/getCategory?page=${page}&category=${category}`,{},'get')
+}
+
+// 添加品类数据
+export function addCategory(data){
+    return https(`/api/addCategory`,data,'post')
+}

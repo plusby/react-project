@@ -1,4 +1,32 @@
 .head-background{
-    height: 9vh;
-    background: #001529;
+    height: 80px;
+    background: #fff;
+    > div{
+        height: 40px;
+        display: flex;   
+        align-items: center;
+        padding:  0 20px 0 0;
+    }
+    .head-top{
+        border-bottom: 1px solid #ccc;
+        justify-content: flex-end;
+        span{
+            margin: 0 0 0 20px;
+        }
+        span:nth-of-type(2){
+            color: cornflowerblue;
+        }
+    }
+    .bottom{
+        justify-content: space-between;
+        .left{
+            width: 200px;
+            text-align: center;
+            font-weight: bolder;
+            font-size: 20px;
+        }
+        .right{
+            text-align: right;
+        }
+    }
 }

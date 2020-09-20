@@ -19,7 +19,7 @@ import {
 } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { navLeft } from '../../api/home'
-import { responsiveArray } from 'antd/lib/_util/responsiveObserve';
+import { saveStore } from '@/common/utils'
 
 const { SubMenu } = Menu;
 
@@ -30,6 +30,7 @@ function NavLeft(props){
         navLeft().then(res=>{
             console.log(res)
             if(res.data.status === 0){
+                saveStore('routeMsg', res.data.msg)
                 setNavState(res.data.msg)
             }
         })
@@ -39,23 +40,25 @@ function NavLeft(props){
         initData()
     },[])
 
-    const goPage = (page) => {
-        console.log(page)
+    const goPage = (page,item) => {
         props.history.push({ pathname: page})
     }
 
     const setNav = (obj) => {
+        
        return obj.map(item=>{
             if(!item.children){ // 没有子菜单
+                if(props.history.location.pathname === item.page){
+                    saveStore('currentPage', item)
+                }
                 return (
-                    <Menu.Item key={item.page} icon={<item.icon />} onClick={()=>{ goPage(item.page)}}>
+                    <Menu.Item key={item.page} icon={<BarChartOutlined />} onClick={()=>{ goPage(item.page,item)}}>
                         { item.title }
                     </Menu.Item>
                 )
             }else{
-                
                 return (
-                    <SubMenu key={item.page} icon={<item.icon />} title={item.title}>
+                    <SubMenu key={item.page} icon={<BarChartOutlined />} title={item.title}>
                         { setNav(item.children) }
                     </SubMenu>
                 ) 
@@ -63,7 +66,7 @@ function NavLeft(props){
         })
     }
     
-    console.log('props.history.location.pathname',props.history.location.pathname)
+    console.log('props.history.location.pathname',props)
     return (
         <>
             <Menu theme="dark" selectedKeys={[props.history.location.pathname]} mode="inline">
