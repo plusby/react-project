@@ -25,3 +25,8 @@ export function getCategory({page,category}){
 export function addCategory(data){
     return https(`/api/addCategory`,data,'post')
 }
+
+// 修改品类数据
+export function changeCategory(data){
+    return https(`/api/changeCategory`,data,'post')
+}

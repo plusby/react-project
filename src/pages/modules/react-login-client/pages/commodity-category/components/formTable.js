@@ -65,7 +65,7 @@ export default function FormTable(props){
             <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
                 {
                     formConfigArr && formConfigArr.map(item=>{
-                        const { label, name, required} = item
+                        const { label, name, required, defaultVal, } = item
                         return (
                             <Form.Item
                                 name={name}
@@ -74,6 +74,7 @@ export default function FormTable(props){
                                 {
                                     required,
                                 }]}
+                                initialValue={defaultVal}
                             >
                                 {
                                     renderItem(item)

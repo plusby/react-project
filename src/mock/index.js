@@ -130,42 +130,42 @@ let category = Mock.mock([
 
 let category2 = Mock.mock([
   {
-    "id": Mock.Random.id(),
+    "id": Mock.Random.id()+ Math.random() *10,
     'name': "@cname",//随机生成中文名字
     'desc': Random.csentence(5, 10)
   },
   {
-    "id": Mock.Random.id(),
+    "id": Mock.Random.id()+ Math.random() *10,
     'name': "@cname",//随机生成中文名字
     'desc': Random.csentence(5, 10)
   },
   {
-    "id": Mock.Random.id(),
+    "id": Mock.Random.id()+ Math.random() *10,
     'name': "@cname",//随机生成中文名字
     'desc': Random.csentence(5, 10)
   },
   {
-    "id": Mock.Random.id(),
+    "id": Mock.Random.id()+ Math.random() *10,
     'name': "@cname",//随机生成中文名字
     'desc': Random.csentence(5, 10)
   },
   {
-    "id": Mock.Random.id(),
+    "id": Mock.Random.id()+ Math.random() *10,
     'name': "@cname",//随机生成中文名字
     'desc': Random.csentence(5, 10)
   },
   {
-    "id": Mock.Random.id(),
+    "id": Mock.Random.id()+ Math.random() *10,
     'name': "@cname",//随机生成中文名字
     'desc': Random.csentence(5, 10)
   },
   {
-    "id": Mock.Random.id(),
+    "id": Mock.Random.id()+ Math.random() *10,
     'name': "@cname",//随机生成中文名字
     'desc': Random.csentence(5, 10)
   },
   {
-    "id": Mock.Random.id(),
+    "id": Mock.Random.id()+ Math.random() *10,
     'name': "@cname",//随机生成中文名字
     'desc': Random.csentence(5, 10)
   }
@@ -188,7 +188,7 @@ Mock.mock(new RegExp('/api/getCategory.*'),'get', (options)=>{
       "total": category2.length,
       "msg":category2
     }
-  } else { // 第一阶段
+  } else if(params.category === '0') { // 第一阶段
     return {
       "status":0,
       "total": category.length,
@@ -210,3 +210,19 @@ Mock.mock('/api/addCategory','post', (options)=>{
     "status": '0',
   }
 })
+
+// 修改 品类数据
+Mock.mock(new RegExp('/api/changeCategory.*'),'post', (options)=>{
+  console.log('options',options)
+  const data = JSON.parse(options.body)
+  category = category.map(item=>{
+    if(item.id === data.id){
+      item.name = data.name
+      item.desc = data.desc
+    }
+    return item
+  })
+  return {
+    "status":0
+  }
+});
