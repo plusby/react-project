@@ -2,12 +2,14 @@ const Login = React.lazy(() => import('@/pages/modules/react-login-client/pages/
 const Admin = React.lazy(() => import('@/pages/modules/react-login-client/pages/admin/admin.js')); 
 const BarChart = React.lazy(() => import('@/pages/modules/react-login-client/pages/bar-chart')); 
 const CommodityCategory = React.lazy(() => import('@/pages/modules/react-login-client/pages/commodity-category')); 
-const CommodityManage = React.lazy(() => import('@/pages/modules/react-login-client/pages/commodity-manage')); 
 const LineChart = React.lazy(() => import('@/pages/modules/react-login-client/pages/line-chart')); 
 const LoginHme = React.lazy(() => import('@/pages/modules/react-login-client/pages/login-home')); 
 const PieChart = React.lazy(() => import('@/pages/modules/react-login-client/pages/pie-chart')); 
 const RoleManage = React.lazy(() => import('@/pages/modules/react-login-client/pages/role-manage')); 
 const UserManage = React.lazy(() => import('@/pages/modules/react-login-client/pages/user-manage')); 
+const CommodityManage = React.lazy(() => import('@/pages/modules/react-login-client/pages/commodity-manage')); 
+const commodityManageDetail = React.lazy(() => import('@/pages/modules/react-login-client/pages/commodity-manage/details')); 
+const commodityManageAdd = React.lazy(() => import('@/pages/modules/react-login-client/pages/commodity-manage/add'));  
 
 const routes = [
   {
@@ -63,6 +65,26 @@ const routes = [
           show: true,
         },
         component: CommodityManage,
+        children: [
+          {
+            path: '/admin/commodityManage/commodityManageDetail',
+            exact: true,
+            meta: {
+              title: '商品管理详情',
+              show: true,
+            },
+            component: commodityManageDetail,
+          },
+          {
+            path: '/admin/commodityManage/commodityManageAdd',
+            exact: true,
+            meta: {
+              title: '商品管理添加',
+              show: true,
+            },
+            component: commodityManageAdd,
+          },
+        ]
       },
       {
         path: '/admin/lineChart',

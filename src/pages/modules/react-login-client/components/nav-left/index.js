@@ -23,6 +23,8 @@ import { saveStore } from '@/common/utils'
 
 const { SubMenu } = Menu;
 
+let selectKey = '/admin/loginHme'
+
 function NavLeft(props){
     const [navState, setNavState] = useState([])
     
@@ -65,11 +67,15 @@ function NavLeft(props){
             }
         })
     }
+
+    const onSelect = (val) => {
+        selectKey = val.key
+    }
     
     console.log('props.history.location.pathname',props)
     return (
         <>
-            <Menu theme="dark" selectedKeys={[props.history.location.pathname]} mode="inline">
+            <Menu theme="dark" onSelect={onSelect} selectedKeys={[selectKey]} mode="inline">
                 {
                     setNav(navState)
                 }

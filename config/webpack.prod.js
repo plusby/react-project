@@ -6,7 +6,7 @@ const smp = new SpeedMeasurePlugin();
 
 module.exports = smp.wrap(merge(baseConfig,{
     mode: 'production',
-    // devtool: 'source-map', // 是否生成单独的source map源码映射文件
+    devtool: 'source-map', // 是否生成单独的source map源码映射文件
     output: {
         publicPath: '/'
     }

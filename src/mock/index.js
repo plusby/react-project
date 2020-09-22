@@ -226,3 +226,106 @@ Mock.mock(new RegExp('/api/changeCategory.*'),'post', (options)=>{
     "status":0
   }
 });
+
+// 商品
+let commodity = Mock.mock([
+  {
+    "id": Mock.Random.id(),
+    'user': "@cname",//随机生成中文名字
+    'desc': Random.csentence(5, 10),
+    'type': '类别'+ Math.floor(Math.random() *10),
+    'address': Random.csentence(5, 10),
+    'name': Random.csentence(5, 10),
+    'num': Math.random() *1000,
+  },
+  {
+    "id": Mock.Random.id(),
+    'user': "@cname",//随机生成中文名字
+    'desc': Random.csentence(5, 10),
+    'type': '类别'+ Math.floor(Math.random() *10),
+    'address': Random.csentence(5, 10),
+    'name': Random.csentence(5, 10),
+    'num': Math.random() *1000,
+  },
+  {
+    "id": Mock.Random.id(),
+    'user': "@cname",//随机生成中文名字
+    'desc': Random.csentence(5, 10),
+    'type': '类别'+ Math.floor(Math.random() *10),
+    'address': Random.csentence(5, 10),
+    'name': Random.csentence(5, 10),
+    'num': Math.random() *1000,
+  },
+  {
+    "id": Mock.Random.id(),
+    'user': "@cname",//随机生成中文名字
+    'desc': Random.csentence(5, 10),
+    'type': '类别'+ Math.floor(Math.random() *10),
+    'address': Random.csentence(5, 10),
+    'name': Random.csentence(5, 10),
+    'num': Math.random() *1000,
+  },
+  {
+    "id": Mock.Random.id(),
+    'user': "@cname",//随机生成中文名字
+    'desc': Random.csentence(5, 10),
+    'type': '类别'+ Math.floor(Math.random() *10),
+    'address': Random.csentence(5, 10),
+    'name': Random.csentence(5, 10),
+    'num': Math.random() *1000,
+  },
+  {
+    "id": Mock.Random.id(),
+    'user': "@cname",//随机生成中文名字
+    'desc': Random.csentence(5, 10),
+    'type': '类别'+ Math.floor(Math.random() *10),
+    'address': Random.csentence(5, 10),
+    'name': Random.csentence(5, 10),
+    'num': Math.random() *1000,
+  },
+  {
+    "id": Mock.Random.id(),
+    'user': "@cname",//随机生成中文名字
+    'desc': Random.csentence(5, 10),
+    'type': '类别'+ Math.floor(Math.random() *10),
+    'address': Random.csentence(5, 10),
+    'name': Random.csentence(5, 10),
+    'num': Math.random() *1000,
+  },
+])
+
+// 获取商品数据
+Mock.mock(new RegExp('/api/getCommodity.*'),'get', (options)=>{
+  
+  const arr = options.url.split('?')[1].split('&')
+  let params = {}
+  arr.forEach(item=>{
+    const val = item.split('=')
+    params[val[0]] = val[1]
+  })
+  const {name, type} = params
+  let result = []
+  console.log('options',options,name,type)
+  if(name && type){
+    result = commodity.filter(item=>{
+      return item.type === type && item.name === name
+    })
+  }
+  if(!name && type){
+    result = commodity.filter(item=>{
+      return item.type === type
+    })
+  }
+  if(name && !type){
+    result = commodity.filter(item=>{
+      return item.name === name
+    })
+  }
+  if(!name && !type){
+    result = commodity
+  }
+  return {
+    "status":0,
+    "msg": result
+  }
+});

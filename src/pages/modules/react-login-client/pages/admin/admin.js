@@ -19,11 +19,47 @@ const { Header, Content, Footer, Sider } = Layout;
 function Admin(){
     let [collapsed,setCollapsed] = useState(false) 
     const userInfo = getStore('userInfo')
-    
+    let arrRoutes = []
+
     const onCollapse = () => {
         setCollapsed(!collapsed)
         console.log(collapsed)
     }
+    
+
+    const setRoute = (routes,arr) => {
+        arr = arr || []
+        for(let i = 0; i < routes.length; i++){
+            let item = routes[i]
+            if(item.children){
+                arr.push(<Route
+                    key={item.path}
+                    path={item.path}
+                    exact={item.exact}
+                    render={props => {
+                        return (
+                        <item.component {...props}></item.component>
+                        );
+                    }}
+                />)
+                setRoute(item.children,arr)
+             }else{
+                arr.push(<Route
+                    key={item.path}
+                    path={item.path}
+                    exact={item.exact}
+                    render={props => {
+                        return (
+                        <item.component {...props}></item.component>
+                        );
+                    }}
+                />)
+             }
+        }
+        return arr
+    }
+
+    console.log('setRoute(ReactLogin[1].children,arrRoutes)',setRoute(ReactLogin[1].children,arrRoutes))
 
     return (
         <div>
@@ -45,17 +81,7 @@ function Admin(){
                         <div className="site-layout-background" style={{ padding: 24, minHeight: 360, background: '#fff' }}>
                             <Switch>
                                 {
-                                    ReactLogin[1].children.map(item=>{
-                                        return <Route
-                                            key={item.path}
-                                            path={item.path}
-                                            render={props => {
-                                                return (
-                                                <item.component {...props}></item.component>
-                                                );
-                                            }}
-                                        />
-                                    })
+                                    setRoute(ReactLogin[1].children,arrRoutes)
                                 }
                                 <Redirect to={ReactLogin[1].children[0].path} />
                             </Switch>

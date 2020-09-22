@@ -30,3 +30,8 @@ export function addCategory(data){
 export function changeCategory(data){
     return https(`/api/changeCategory`,data,'post')
 }
+
+// 获取商品数据
+export function getCommodity({type,name}){
+    return https(`/api/getCommodity?type=${type}&name=${name}`,{},'get')
+}
