@@ -2,76 +2,64 @@
 import Mock,{ Random } from 'mockjs'
 //使用mockjs模拟数据
 
-// 登录接口
-Mock.mock('/api/login','post', {
-    "status":0,
-    "msg":
-      {
-        "name": 'admin',
-        "id": Mock.Random.id(),//随机生成1-800的数字
-        "nickname": "@cname",//随机生成中文名字
-      }
-});
 
-// 获取左侧导航配置
-Mock.mock('/api/navLeft','get', {
-  "status":0,
-  "msg":
-    [
+let navList = [
+  {
+    title: '首页',
+    icon: 'BankOutlined',
+    page: '/admin/loginHme'
+  },
+  {
+    title: '商品',
+    icon: 'BlockOutlined',
+    children: [
       {
-        title: '首页',
-        icon: 'BankOutlined',
-        page: '/admin/loginHme'
+        title: '品类管理',
+        icon: 'ClusterOutlined',
+        page: '/admin/commodityCategory'
       },
       {
-        title: '商品',
-        icon: 'BlockOutlined',
-        children: [
-          {
-            title: '品类管理',
-            icon: 'ClusterOutlined',
-            page: '/admin/commodityCategory'
-          },
-          {
-            title: '商品管理',
-            icon: 'ContainerOutlined',
-            page: '/admin/commodityManage'
-          }
-        ]
-      },
-      {
-        title: '用户管理',
-        icon: 'TeamOutlined',
-        page: '/admin/userManage'
-      },
-      {
-        title: '角色管理',
-        icon: 'UserSwitchOutlined',
-        page: '/admin/roleManage'
-      },
-      {
-        title: '图形报表',
-        icon: 'SmileOutlined',
-        children: [
-          {
-            title: '柱状图',
-            icon:'BarChartOutlined',
-            page: '/admin/barChart'
-          },
-          {
-            title: '折线图',
-            icon: 'LineChartOutlined',
-            page: '/admin/lineChart'
-          },
-          {
-            title: '饼图',
-            icon: 'PieChartOutlined',
-            page: '/admin/pieChart'
-          }
-        ]
+        title: '商品管理',
+        icon: 'ContainerOutlined',
+        page: '/admin/commodityManage'
       }
     ]
-});
+  },
+  {
+    title: '用户管理',
+    icon: 'TeamOutlined',
+    page: '/admin/userManage'
+  },
+  {
+    title: '角色管理',
+    icon: 'UserSwitchOutlined',
+    page: '/admin/roleManage'
+  },
+  {
+    title: '图形报表',
+    icon: 'SmileOutlined',
+    children: [
+      {
+        title: '柱状图',
+        icon:'BarChartOutlined',
+        page: '/admin/barChart'
+      },
+      {
+        title: '折线图',
+        icon: 'LineChartOutlined',
+        page: '/admin/lineChart'
+      },
+      {
+        title: '饼图',
+        icon: 'PieChartOutlined',
+        page: '/admin/pieChart'
+      }
+    ]
+  }
+]
+
+
+
 
 
 // 品类数据
@@ -329,3 +317,147 @@ Mock.mock(new RegExp('/api/getCommodity.*'),'get', (options)=>{
     "msg": result
   }
 });
+
+// 角色
+let role = [
+  {
+    id: Mock.Random.id(),
+    userName: '哈哈',
+    time: new Date().getTime() - 10000,
+    empower: 'admin'
+  },
+  {
+    id: Mock.Random.id(),
+    userName: '哈哈2',
+    time: new Date().getTime() - 10000,
+    empower: 'admin'
+  },
+  {
+    id: Mock.Random.id(),
+    userName: 'admin',
+    time: new Date().getTime() - 10000,
+    empower: 'admin',
+    power: 'all'
+  },
+]
+
+Mock.mock(new RegExp('/api/getRole.*'),'get', (options)=>{
+  return {
+    "status":0,
+    "msg": role
+  }
+});
+
+// 添加角色
+Mock.mock(new RegExp('/api/addRole.*'),'post', (options)=>{
+  console.log('options',options)
+  const data = JSON.parse(options.body)
+  role.push(Mock.mock({
+    id: Mock.Random.id(),
+    userName: data.userName,
+    time: new Date().getTime(),
+    empower: data.empower
+  }))
+  return {
+    "status":0,
+    "msg": role
+  }
+});
+
+// 删除角色
+Mock.mock(new RegExp('/api/deleteRole.*'),'get', (options)=>{
+  console.log('options',options)
+  const arr = options.url.split('?')[1].split('&')
+  let params = {}
+  arr.forEach(item=>{
+    const val = item.split('=')
+    params[val[0]] = val[1]
+  })
+  const { id } = params
+  role = role.filter(item=>{
+    return item.id !== id
+  })
+  return {
+    "status":0,
+    "msg": role
+  }
+});
+
+// 给角色添加权限
+Mock.mock(new RegExp('/api/addPower.*'),'post', (options)=>{
+  console.log('options',options)
+  const data = JSON.parse(options.body)
+  role = role.map(item =>{
+    if(item.id === data.id){
+      item.power = data.power
+    }
+    return item
+  })
+  return {
+    "status":0,
+    "msg": role
+  }
+});
+
+// 登录接口
+Mock.mock(new RegExp('/api/login.*'),'post', options=>{
+  console.log('options',options)
+  const data = JSON.parse(options.body)
+  const user = role.filter(item=>{
+    return data.userName === item.userName
+  })
+  console.log('user',user,role)
+  return {
+    "status":0,
+    "msg": user[0]
+  }
+  
+});
+
+// 获取左侧导航配置
+Mock.mock(new RegExp('/api/navLeft.*'),'get',(options)=>{
+  const result = options.url.split('?')[1]
+  const arr = result.split('&')
+  let params = {}
+  arr.forEach(item=>{
+    const val = item.split('=')
+    params[val[0]] = val[1]
+  })
+  console.log('params',params)
+  const roleItem = role.filter(item =>{
+    return item.id === params.id
+  })
+  console.log('roleItem',roleItem)
+  const newnavList = getNav(navList,roleItem[0].power,[])
+  console.log(newnavList)
+  return {
+    "status":0,
+    "msg": newnavList
+  }
+});
+
+function getNav(origin,roleItem,target){
+  if(roleItem === 'all'){
+    return origin
+  }
+  origin.forEach((item)=>{
+    if(item.children){
+      const children = getNav(item.children,roleItem,[])
+      if(children.length){
+        item ={
+          ...item,
+          children: children,
+        }
+        target.push(item)
+      }
+    }else{
+      roleItem.forEach(val=>{
+        if(item.page === val){
+          target.push(item)
+        }
+      })
+    }
+    
+  })
+  return target
+}

@@ -69,7 +69,7 @@ export default function Head(props){
                 <Button type="primary" onClick={()=>{searchBtn()}}>搜索</Button>
             </div>
             <div className="right">
-                <Button icon={<PlusOutlined />} type="primary">添加</Button>
+                <Button icon={<PlusOutlined />} type="primary" onClick={()=>{addBtn()}}>添加</Button>
             </div>
         </div>
     )
@@ -98,6 +98,11 @@ export default function Head(props){
         initData()
     }
 
+    // 添加
+    const addBtn = () => {
+        props.history.push('/admin/commodityManage/commodityManageAdd')
+    }
+
     useEffect(() => {
         initData()
     }, [])
@@ -106,6 +111,9 @@ export default function Head(props){
         <div>   
             <Card title={title} bordered={false} style={{ width: '100%' }}>
                 <Table 
+                    rowKey={record => { 
+                        return record.id
+                    }}
                     columns={column} 
                     dataSource={sourceData} 
                     scroll={{ x: 1300 }}

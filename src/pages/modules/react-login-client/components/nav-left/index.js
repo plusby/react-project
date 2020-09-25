@@ -19,7 +19,7 @@ import {
 } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { navLeft } from '../../api/home'
-import { saveStore } from '@/common/utils'
+import { saveStore, getStore } from '@/common/utils'
 
 const { SubMenu } = Menu;
 
@@ -27,9 +27,10 @@ let selectKey = '/admin/loginHme'
 
 function NavLeft(props){
     const [navState, setNavState] = useState([])
-    
+    const userInfo = getStore('userInfo')
     const initData = () => {
-        navLeft().then(res=>{
+        
+        navLeft(userInfo.id).then(res=>{
             console.log(res)
             if(res.data.status === 0){
                 saveStore('routeMsg', res.data.msg)

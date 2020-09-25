@@ -17,7 +17,7 @@ function Head(props){
         })
 
         if (!Object.keys(getStore('routeMsg')).length) { 
-            navLeft().then(res=>{
+            navLeft(userInfo.id).then(res=>{
                 if(res.data.status === 0){
                     saveStore('routeMsg', res.data.msg)
                     initPage(res.data.msg)

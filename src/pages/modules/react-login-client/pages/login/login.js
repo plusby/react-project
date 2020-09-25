@@ -23,7 +23,7 @@ function Login(props) {
     const onFinish = (vals) => {
         form.validateFields().then(async vals=>{
             const params = {
-                username: vals.username,
+                userName: vals.username,
                 passwd: vals.password
             }
             const result = await loginHttp(params)
